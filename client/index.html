@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>XHR XML Example</title>
+	<style>
+		*{
+			font-family:tahoma,verdana,sans-serif;
+		}
+      
+        .concert{
+			border:1px solid black;
+			padding:5px;
+			margin-bottom:10px;
+		}
+	</style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script>
+      "use strict";
+
+      (function(){
+        window.onload = init;
+
+        function init(){
+          document.querySelector('#mybutton').onclick = loadData;
+        }
+
+        function loadData(){
+          var url = "localhost:3000/search";
+
+          $.ajax({
+            dataType: "json",
+            url: url,
+            data: null,
+            success: jsonLoaded
+          });
+        }
+
+        function jsonLoaded(obj){
+          console.log("obj = " +obj);
+          console.log("obj stringified = " + JSON.stringify(obj));
+          
+          //$.ajax({
+          //  dataType: "jsonp",
+          //  url: url,
+          //  data: null,
+          //  success: getId
+          //});
+        }
+        
+        function getId(obj){
+          console.log("obj = " +obj);
+          console.log("obj stringified = " + JSON.stringify(obj));
+          
+          //$.ajax({
+          //  dataType: "jsonp",
+          //  url: url,
+          //  data: null,
+          //  success: getId
+          //});
+        }
+      }())
+	</script>
+</head>
+<body>
+	<h1>Concerts!</h1>
+	<p><button id='mybutton'>Fetch Data</button></p>
+	<div id='content'></div>
+	
+</body>
+</html>
