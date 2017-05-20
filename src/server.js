@@ -20,7 +20,22 @@ const onRequest = (req, response) => {
       response.end();
       break;
     case 'https://pacific-garden-65629.herokuapp.com/search':
-      //htmlHandler.getPage2(request, response);
+      const apiKey = "RGAPI-dc7a3219-69d6-4213-8027-ec29e4767ff9";
+      //get the queryString and pull out the name
+      const parsed = url.parse(req.url);
+      const params = query.parse(parsed.query);
+      const summonerName = params["name"];
+
+      //get the summoner's data
+      const summonerURL = "https://na1.api.riotgames.com/lol/summoner/v3/summoners/by-name/" + summonerName + "?api_key=" + apiKey;
+      request(summonerURL, function(err, response, body) {
+        if (err) {
+          console.log(err);
+        } else {
+          var summonerData = JSON.parse(body);
+          console.log(summonerData);
+        }
+      });
       break;
     default:
       response.writeHead(200, { 'Content-Type': 'text/html' });
