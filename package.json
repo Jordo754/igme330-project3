@@ -8,5 +8,9 @@
     "start": "node ./src/server.js"
   },
   "author": "Jordan Mato",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "query-string": "^4.3.4",
+    "request": "^2.81.0"
+  }
 }

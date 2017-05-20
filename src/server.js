@@ -10,16 +10,16 @@ const index = fs.readFileSync(`${__dirname}/../client/index.html`);
 
 console.log("check");
 
-const onRequest = (request, response) => {
-  console.log(request.url);
+const onRequest = (req, response) => {
+  console.log(req.url);
   
-  switch (request.url) {
-    case '/':
+  switch (req.url) {
+    case 'https://pacific-garden-65629.herokuapp.com/':
       response.writeHead(200, { 'Content-Type': 'text/html' });
       response.write(index);
       response.end();
       break;
-    case '/search':
+    case 'https://pacific-garden-65629.herokuapp.com/search':
       //htmlHandler.getPage2(request, response);
       break;
     default:
