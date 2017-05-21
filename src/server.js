@@ -132,16 +132,16 @@ const onRequest = (req, response) => {
                   }
                   
                   if (myId < 5) {
-                    killPar = data["kills"] + data["assists"] / blueKills;
+                    killPar = (data["kills"] + data["assists"]) / blueKills;
                     data["killPar"] = Number(Math.round(killPar+'e2')+'e-2');
                     
-                    enemyKillPar = data["enemyKills"] + data["enemyAssists"] / redKills;
+                    enemyKillPar = (data["enemyKills"] + data["enemyAssists"]) / redKills;
                     data["enemyKillPar"] = Number(Math.round(enemyKillPar+'e2')+'e-2');
                   } else {
-                    killPar = data["kills"] + data["assists"] / redKills;
+                    killPar = (data["kills"] + data["assists"]) / redKills;
                     data["killPar"] = Number(Math.round(killPar+'e2')+'e-2');
                     
-                    enemyKillPar = data["enemyKills"] + data["enemyAssists"] / blueKills;
+                    enemyKillPar = (data["enemyKills"] + data["enemyAssists"]) / blueKills;
                     data["enemyKillPar"] = Number(Math.round(enemyKillPar+'e2')+'e-2');
                   }
 
