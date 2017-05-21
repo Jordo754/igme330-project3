@@ -22,6 +22,8 @@ const onRequest = (req, response) => {
       response.write(index);
       response.end();
       break;
+    case '/teambuilder_highres_1920.jpg':
+      break;
     case '/search':
       var data = {};
       const apiKey = "RGAPI-dc7a3219-69d6-4213-8027-ec29e4767ff9";;
