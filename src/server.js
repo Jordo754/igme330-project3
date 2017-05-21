@@ -9,13 +9,14 @@ const PORT = process.env.PORT || process.env.NODE_PORT || 3000;
 const index = fs.readFileSync(`${__dirname}/../client/index.html`);
 
 const onRequest = (req, response) => {
+  console.log(req.url);
   switch (req.url) {
-    case 'https://pacific-garden-65629.herokuapp.com/':
+    case '/':
       response.writeHead(200, { 'Content-Type': 'text/html' });
       response.write(index);
       response.end();
       break;
-    case 'https://pacific-garden-65629.herokuapp.com/search':
+    case '/search':
       var data = {};
       const apiKey = "RGAPI-dc7a3219-69d6-4213-8027-ec29e4767ff9";;
       var summonerName = "Jordo754";
