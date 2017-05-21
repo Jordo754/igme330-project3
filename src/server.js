@@ -3,6 +3,12 @@ const fs = require('fs');
 const url = require('url');
 const queryString = require('query-string');
 const request = require('request');
+const search = require('youtube-search');
+
+const opts = {
+  maxResults: 1,
+  key: 'AIzaSyBTB_yQ74R-AKDN0HnN72KtvLydac5rAn4'
+};
 
 const PORT = process.env.PORT || process.env.NODE_PORT || 3000;
 
@@ -148,7 +154,8 @@ const onRequest = (req, response) => {
 
                       data["champion"] = championStatic["name"];
                       data["title"] = championStatic["title"];
-                      data["image"] = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/" + championStatic["name"] + "_0.jpg";
+                      data["image"] = "https://ddragon.leagueoflegends.com/cdn/img/champion/loading/" + championStatic["name"] + "_0.jpg";
+                      data["fullImage"] = "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/" + championStatic["name"] + "_0.jpg";
                       
                       request(enemyChampURL, function(err, rep, body) {
                         if (err) {
@@ -158,14 +165,23 @@ const onRequest = (req, response) => {
 
                           data["enemyChampion"] = enemyChampionStatic["name"];
                           data["enemyTitle"] = enemyChampionStatic["title"];
-                          data["enemyImage"] = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/" + enemyChampionStatic["name"] + "_0.jpg";
+                          data["enemyImage"] = "https://ddragon.leagueoflegends.com/cdn/img/champion/loading/" + enemyChampionStatic["name"] + "_0.jpg";
                         }
                         
-                        const stringMessage = JSON.stringify(data);
+                        search(data["champion"] + ' Champion Spotlight | Gameplay - League of Legends', opts, function(err, results) {
+                          if(err) return console.log(err);
+
+                          
+                          var video = results[0]["link"];
+                          var embed = "https://www.youtube.com/embed/" + video.split('=')[1];
+                          data["video"] = embed;
+                          
+                          const stringMessage = JSON.stringify(data);
                   
-                        response.writeHead(200, { 'Content-Type': 'application/json' });
-                        response.write(stringMessage);
-                        response.end();
+                          response.writeHead(200, { 'Content-Type': 'application/json' });
+                          response.write(stringMessage);
+                          response.end();
+                        });
                       });
                     }
                   });
