@@ -1,71 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<title>XHR XML Example</title>
-	<style>
-		*{
-			font-family:tahoma,verdana,sans-serif;
-		}
-      
-        .concert{
-			border:1px solid black;
-			padding:5px;
-			margin-bottom:10px;
-		}
-	</style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-	<script>
-      "use strict";
+  <meta charset="utf-8" />
+  <title>Project 3</title>
+  <style>
+    *{
+      font-family:tahoma,verdana,sans-serif;
+      font-size: 14px;
+    }
 
-      (function(){
-        window.onload = init;
+    .concert{
+      border:1px solid black;
+      padding:5px;
+      margin-bottom:10px;
+    }
+    
+    #content {
+      display: none;
+      margin: 0 auto;
+      width: 95%;
+      min-width: 800px;
+    }
+    
+    .right {
+      float: right;
+    }
+    
+    .left {
+      float: left;
+    }
+    
+    img {
+      padding: 10px;
+    }
+  </style>
+  <script  src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script>
+    "use strict";
 
-        function init(){
-          document.querySelector('#mybutton').onclick = loadData;
-        }
+    (function(){
+      window.onload = init;
 
-        function loadData(){
-          var url = "localhost:3000/search";
+      var summonerName = "";
+      var enemySummonerName = "";
 
-          $.ajax({
-            dataType: "json",
-            url: url,
-            data: null,
-            success: jsonLoaded
-          });
-        }
+      var championName = "";
+      var championTitle = "";
+      var enemyChampionName = "";
+      var enemyChampionTitle = "";
 
-        function jsonLoaded(obj){
-          console.log("obj = " +obj);
-          console.log("obj stringified = " + JSON.stringify(obj));
-          
-          //$.ajax({
-          //  dataType: "jsonp",
-          //  url: url,
-          //  data: null,
-          //  success: getId
-          //});
-        }
+      var wardsPlaced = 0;
+      var wardsKilled = 0;
+      var wardsBought = 0;
+      var enemyWardsPlaced = 0;
+      var enemyWardsKilled = 0;
+      var enemyWardsBought = 0;
+
+      var champImage = "";
+      var enemyChampImage = "";
+
+      var killPar = 0;
+      var enemyKillPar = 0;
+
+      function init(){
+        document.querySelector('#mybutton').onclick = loadData;
+      }
+
+      function loadData(){
+        var url = "https://pacific-garden-65629.herokuapp.com/search";
+
+        $.ajax({
+          dataType: "json",
+          url: url,
+          data: null,
+          success: jsonLoaded
+        });
+      }
+
+      function jsonLoaded(obj){
+        //assign variables for easy access
+        summonerName = obj["name"];
+        enemySummonerName = obj["enemyName"];
+        championName = obj["champion"];
+        championTitle = obj["title"];
+        enemyChampionName = obj["enemyChampion"];
+        enemyChampionTitle = obj["enemyTitle"]
+        wardsPlaced = obj["wardsPlaced"];
+        wardsKilled = obj["wardsKilled"];
+        wardsBought = obj["redWards"];
+        enemyWardsPlaced = obj["enemyWardsPlaced"];
+        enemyWardsKilled = obj["enemyWardsPlaced"];
+        enemyWardsBought = obj["enemyRedWards"]
+        champImage = obj["image"];
+        enemyChampImage = obj["enemyImage"]
+        killPar = obj["killPar"];
+        enemyKillPar = obj["enemyKillPar"];
+
+        formatPage(obj);
+      }
+
+      function formatPage() {
+        document.querySelector("#content").style.display = "block";
         
-        function getId(obj){
-          console.log("obj = " +obj);
-          console.log("obj stringified = " + JSON.stringify(obj));
-          
-          //$.ajax({
-          //  dataType: "jsonp",
-          //  url: url,
-          //  data: null,
-          //  success: getId
-          //});
-        }
-      }())
-	</script>
+        var leftDiv = document.querySelector("#leftDiv");
+        var rightDiv = document.querySelector("#rightDiv");
+        
+        leftDiv.getElementsByClassName("name").innerHTML = summonerName;
+        leftDiv.getElementsByClassName("champName").innerHTML = championName;
+        leftDiv.getElementsByClassName("champTitle").innerHTML = championTitle;
+        leftDiv.getElementsByClassName("placed").innerHTML = "Placed: " + wardsPlaced;
+        leftDiv.getElementsByClassName("killed").innerHTML = "Killed: " + wardsKilled;
+        leftDiv.getElementsByClassName("bought").innerHTML = "Control Wards Bought: " + wardsBought;
+        leftDiv.getElementsByClassName("killPar").innerHTML = "Kill Participation: " + killPar;
+        
+        rightDiv.getElementsByClassName("enemyName").innerHTML = summonerName;
+        rightDiv.getElementsByClassName("enemyChampName").innerHTML = championName;
+        rightDiv.getElementsByClassName("enemyChampTitle").innerHTML = championTitle;
+        rightDiv.getElementsByClassName("enemyPlaced").innerHTML = "Placed: " + wardsPlaced;
+        rightDiv.getElementsByClassName("enemyKilled").innerHTML = "Killed: " + wardsKilled;
+        rightDiv.getElementsByClassName("enemyBought").innerHTML = "Control Wards Bought: " + wardsBought;
+        rightDiv.getElementsByClassName("enemyKillPar").innerHTML = "Kill Participation: " + killPar;
+      }
+    }())
+  </script>
 </head>
 <body>
-	<h1>Concerts!</h1>
-	<p><button id='mybutton'>Fetch Data</button></p>
-	<div id='content'></div>
-	
+  <p><button id='mybutton'>Fetch Data</button></p>
+  <div id='content'>
+    <img height=350 class="left" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Rakan_0.jpg"/>
+    <div id="leftDiv" class="left">
+      <h3 class="name">Summoner</h3>
+      <p class="champName">Champion</p>
+      <p class="champTitle">Title</p>
+      <br/>
+      <h5>Warding:</h5>
+      <p class="placed">Placed: </p>
+      <p class="killed">Killed: </p>
+      <p class="bought">Control Wards Bought: </p>
+      <br/>
+      <p class="killPar">Kill Participation:</p>
+    </div>
+    
+    <img height=350 class="right" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Rakan_0.jpg"/>
+    
+    <div id="rightDiv" class="right">
+      <h3 class="name">Summoner</h3>
+      <p class="champName">Champion</p>
+      <p class="champTitle">Title</p>
+      <br/>
+      <h5>Warding:</h5>
+      <p class="placed">Placed: </p>
+      <p class="killed">Killed: </p>
+      <p class="bought">Control Wards Bought: </p>
+      <br/>
+      <p class="killPar">Kill Participation:</p>
+    </div>
+  </div>
 </body>
 </html>
